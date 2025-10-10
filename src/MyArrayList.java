@@ -1,3 +1,6 @@
+import java.util.Random;
+import java.util.Arrays;
+
 public class MyArrayList<T> {
     private T[] data;
     private int size;
@@ -61,9 +64,7 @@ public class MyArrayList<T> {
         capacity = newCapacity;
     }
 
-    // === ЗАДАНИЕ 3: Добавляем эти методы ===
-
-    // Добавление в конец
+    // Методы из задания 3
     public void pushBack(T element) {
         if (size == capacity) {
             ensureCapacity(size + 1);
@@ -71,7 +72,6 @@ public class MyArrayList<T> {
         data[size++] = element;
     }
 
-    // Удаление первого элемента
     public void popFront() {
         if (size == 0) {
             throw new IllegalStateException("Массив пуст");
@@ -79,12 +79,10 @@ public class MyArrayList<T> {
         removeAt(0);
     }
 
-    // Добавление в начало
     public void pushFront(T element) {
         insert(0, element);
     }
 
-    // Вставка по индексу
     public void insert(int index, T element) {
         if (index < 0 || index > size) {
             throw new IndexOutOfBoundsException("Неверный индекс: " + index);
@@ -99,7 +97,6 @@ public class MyArrayList<T> {
         size++;
     }
 
-    // Удаление по индексу
     public void removeAt(int index) {
         if (index < 0 || index >= size) {
             throw new IndexOutOfBoundsException("Неверный индекс: " + index);
@@ -112,7 +109,6 @@ public class MyArrayList<T> {
         data[--size] = null;
     }
 
-    // Удаление по значению (первое вхождение)
     public boolean remove(T element) {
         for (int i = 0; i < size; i++) {
             if (element == null ? data[i] == null : element.equals(data[i])) {
@@ -123,7 +119,6 @@ public class MyArrayList<T> {
         return false;
     }
 
-    // Удаление всех вхождений
     public int removeAll(T element) {
         int count = 0;
         for (int i = 0; i < size; i++) {
@@ -136,7 +131,6 @@ public class MyArrayList<T> {
         return count;
     }
 
-    // Удаление последнего элемента
     public void popBack() {
         if (size == 0) {
             throw new IllegalStateException("Массив пуст");
@@ -144,7 +138,6 @@ public class MyArrayList<T> {
         data[--size] = null;
     }
 
-    // Очистка массива
     public void clear() {
         for (int i = 0; i < size; i++) {
             data[i] = null;
@@ -152,7 +145,72 @@ public class MyArrayList<T> {
         size = 0;
     }
 
-     public void testEnsureCapacity(int minCapacity) {
-         ensureCapacity(minCapacity);
-     }
+    // === ЗАДАНИЕ 4: Добавляем эти методы ===
+
+    // Реверс массива
+    public void reverse() {
+        for (int i = 0; i < size / 2; i++) {
+            T temp = data[i];
+            data[i] = data[size - 1 - i];
+            data[size - 1 - i] = temp;
+        }
+    }
+
+    // Перемешивание массива
+    public void shuffle() {
+        Random random = new Random();
+        for (int i = size - 1; i > 0; i--) {
+            int j = random.nextInt(i + 1);
+            T temp = data[i];
+            data[i] = data[j];
+            data[j] = temp;
+        }
+    }
+
+    // Сравнение массивов
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+
+        MyArrayList<?> other = (MyArrayList<?>) obj;
+        if (size != other.size) return false;
+
+        for (int i = 0; i < size; i++) {
+            if (!java.util.Objects.equals(data[i], other.data[i])) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    // Получение элемента по индексу
+    public T getElementAt(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Неверный индекс: " + index);
+        }
+        return data[index];
+    }
+
+    // Клонирование
+    @SuppressWarnings("unchecked")
+    @Override
+    public MyArrayList<T> clone() {
+        try {
+            MyArrayList<T> cloned = (MyArrayList<T>) super.clone();
+            cloned.data = Arrays.copyOf(data, capacity);
+            cloned.size = this.size;
+            cloned.capacity = this.capacity;
+            return cloned;
+        } catch (CloneNotSupportedException e) {
+            MyArrayList<T> cloned = new MyArrayList<>(this.capacity);
+            System.arraycopy(this.data, 0, cloned.data, 0, this.size);
+            cloned.size = this.size;
+            return cloned;
+        }
+    }
+
+    public void testEnsureCapacity(int minCapacity) {
+        ensureCapacity(minCapacity);
+    }
 }
