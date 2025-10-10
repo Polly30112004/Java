@@ -6,7 +6,7 @@ public class MyArrayList<T> {
     private static final int DEFAULT_CAPACITY = 10;
     private static final double GROWTH_FACTOR = 1.5;
 
-    // Конструктор с параметром
+    // Конструкторы из задания 1
     @SuppressWarnings("unchecked")
     public MyArrayList(int initialCapacity) {
         if (initialCapacity <= 0) {
@@ -17,22 +17,19 @@ public class MyArrayList<T> {
         this.size = 0;
     }
 
-    // Конструктор по умолчанию
     public MyArrayList() {
-        this(DEFAULT_CAPACITY); // Переиспользование конструктора
+        this(DEFAULT_CAPACITY);
     }
 
-    // Геттер для size
+    // Методы из задания 2
     public int getSize() {
         return size;
     }
 
-    // Геттер для capacity (добавляем для тестирования)
     public int getCapacity() {
         return capacity;
     }
 
-    // Метод toString
     @Override
     public String toString() {
         if (size == 0) {
@@ -49,7 +46,6 @@ public class MyArrayList<T> {
         return sb.toString();
     }
 
-    // EnsureCapacity - закрытый метод
     @SuppressWarnings("unchecked")
     private void ensureCapacity(int minCapacity) {
         if (minCapacity <= capacity) {
@@ -63,13 +59,100 @@ public class MyArrayList<T> {
 
         data = newData;
         capacity = newCapacity;
-        System.out.println("Емкость увеличена до: " + capacity);
     }
 
-    // Временный метод для тестирования ensureCapacity 
-    public void testEnsureCapacity(int minCapacity) {
-        ensureCapacity(minCapacity);
+    // === ЗАДАНИЕ 3: Добавляем эти методы ===
+
+    // Добавление в конец
+    public void pushBack(T element) {
+        if (size == capacity) {
+            ensureCapacity(size + 1);
+        }
+        data[size++] = element;
     }
-    
-    
+
+    // Удаление первого элемента
+    public void popFront() {
+        if (size == 0) {
+            throw new IllegalStateException("Массив пуст");
+        }
+        removeAt(0);
+    }
+
+    // Добавление в начало
+    public void pushFront(T element) {
+        insert(0, element);
+    }
+
+    // Вставка по индексу
+    public void insert(int index, T element) {
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException("Неверный индекс: " + index);
+        }
+
+        if (size == capacity) {
+            ensureCapacity(size + 1);
+        }
+
+        System.arraycopy(data, index, data, index + 1, size - index);
+        data[index] = element;
+        size++;
+    }
+
+    // Удаление по индексу
+    public void removeAt(int index) {
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException("Неверный индекс: " + index);
+        }
+
+        int numMoved = size - index - 1;
+        if (numMoved > 0) {
+            System.arraycopy(data, index + 1, data, index, numMoved);
+        }
+        data[--size] = null;
+    }
+
+    // Удаление по значению (первое вхождение)
+    public boolean remove(T element) {
+        for (int i = 0; i < size; i++) {
+            if (element == null ? data[i] == null : element.equals(data[i])) {
+                removeAt(i);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Удаление всех вхождений
+    public int removeAll(T element) {
+        int count = 0;
+        for (int i = 0; i < size; i++) {
+            if (element == null ? data[i] == null : element.equals(data[i])) {
+                removeAt(i);
+                i--;
+                count++;
+            }
+        }
+        return count;
+    }
+
+    // Удаление последнего элемента
+    public void popBack() {
+        if (size == 0) {
+            throw new IllegalStateException("Массив пуст");
+        }
+        data[--size] = null;
+    }
+
+    // Очистка массива
+    public void clear() {
+        for (int i = 0; i < size; i++) {
+            data[i] = null;
+        }
+        size = 0;
+    }
+
+     public void testEnsureCapacity(int minCapacity) {
+         ensureCapacity(minCapacity);
+     }
 }
