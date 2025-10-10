@@ -7,14 +7,12 @@
 - выводит 10 лучших игроков в определенной игре;
 - выводит 10 лучших игроков с учетом всех игр.
 */
-
+package Task01;
 import java.util.*;
 
 public class Task01 {
     public static void main(String[] args) {
         RatingSystem ratingSystem = new RatingSystem();
-        Scanner scanner = new Scanner(System.in);
-
         // Демонстрация работы системы
         System.out.println("\nРегистрация игроков");
 
@@ -90,6 +88,5 @@ public class Task01 {
             System.out.println("  Детальный рейтинг: " + p.getAllRatings());
         }
 
-        scanner.close();
     }
 }

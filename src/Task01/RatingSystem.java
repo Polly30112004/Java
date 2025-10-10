@@ -1,3 +1,5 @@
+package Task01;
+
 import java.util.*;
 
 public class RatingSystem {
