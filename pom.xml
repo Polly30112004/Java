@@ -19,14 +19,41 @@
     </properties>
 
     <dependencies>
-        <!-- Servlet API (javax для Jetty 11) -->
+        <!-- Servlet API -->
         <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>4.0.1</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>5.11.0</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>5.11.0</version>
+            <scope>test</scope>
+        </dependency>
 
+        <!-- Mockito -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>5.14.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- UCanAccess для тестов -->
+        <dependency>
+            <groupId>net.sf.ucanaccess</groupId>
+            <artifactId>ucanaccess</artifactId>
+            <version>5.0.1</version>
+            <scope>test</scope>
+        </dependency>
         <!-- JSP API -->
         <dependency>
             <groupId>javax.servlet.jsp</groupId>
@@ -35,23 +62,16 @@
             <scope>provided</scope>
         </dependency>
 
-        <!-- JSTL -->
         <dependency>
-            <groupId>jstl</groupId>
-            <artifactId>jstl</artifactId>
-            <version>1.2</version>
-        </dependency>
-
-        <!-- UCanAccess -->
-        <dependency>
-            <groupId>net.sf.ucanaccess</groupId>
-            <artifactId>ucanaccess</artifactId>
-            <version>5.0.1</version>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>RELEASE</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
     <build>
-        <finalName>testApp</finalName>
+        <finalName>Lab13</finalName>
         <plugins>
             <!-- Compiler -->
             <plugin>
@@ -63,20 +83,38 @@
                     <target>17</target>
                 </configuration>
             </plugin>
-
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <includes>
+                        <include>**/*Test.java</include>
+                    </includes>
+                </configuration>
+            </plugin>
             <!-- Jetty Plugin -->
             <plugin>
                 <groupId>org.eclipse.jetty</groupId>
                 <artifactId>jetty-maven-plugin</artifactId>
                 <version>${jetty.version}</version>
                 <configuration>
-                    <scanIntervalSeconds>10</scanIntervalSeconds>
                     <webApp>
-                        <contextPath>/testApp</contextPath>
+                        <contextPath>/Lab13</contextPath>
                     </webApp>
                     <httpConnector>
                         <port>8080</port>
                     </httpConnector>
+                    <scan>3</scan>
+                </configuration>
+            </plugin>
+
+            <!-- WAR Plugin -->
+            <plugin>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.4.0</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
             </plugin>
         </plugins>

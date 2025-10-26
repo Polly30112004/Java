@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5"
+         xmlns="http://java.sun.com/xml/ns/javaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+         http://java.sun.com/xml/ns/javaee/web-app_4_0.xsd">
+
+    <display-name>Lab13</display-name>
+
+    <servlet>
+        <servlet-name>InsertServlet</servlet-name>
+        <servlet-class>crudServlet.InsertServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>UpdateServlet</servlet-name>
+        <servlet-class>crudServlet.UpdateServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DeleteServlet</servlet-name>
+        <servlet-class>crudServlet.DeleteServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>SelectServlet</servlet-name>
+        <servlet-class>crudServlet.SelectServlet</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>InsertServlet</servlet-name>
+        <url-pattern>/insert</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>UpdateServlet</servlet-name>
+        <url-pattern>/update</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DeleteServlet</servlet-name>
+        <url-pattern>/delete</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>SelectServlet</servlet-name>
+        <url-pattern>/select</url-pattern>
+    </servlet-mapping>
+
+    <welcome-file-list>
+        <welcome-file>Home.jsp</welcome-file>
+    </welcome-file-list>
+</web-app>
